@@ -1,0 +1,13 @@
+# DO NOT CHANGE THIS VALUE
+version: 1
+
+prefix: <bold><color:#f8de8d><sm>popcorn</sm></color></bold> <gray>»</gray> <message>
+error: <red><message></red>
+
+argument:
+  item:
+    invalid: Invalid item '<key>'.
+
+command:
+  iv:
+    give: Given <amount> <item> to <player>.

@@ -1,0 +1,31 @@
+name: V2Hat
+version: 1.0
+main: net.df1015.pl.Hat
+api-version: '1.21.1'
+author: ringpolice
+
+dependencies:
+  server:
+    popcorn:
+      load: BEFORE
+      required: true
+      join-classpath: true
+    LuckPerms:
+      load: BEFORE
+      required: true
+      join-classpath: true
+    Vault:
+      load: BEFORE
+      required: true
+      join-classpath: true
+permissions :
+  vindex.hat:
+    description: "Permission to open hat shop"
+    default: not op
+
+commands:
+  hat:
+    description: "Open hat menu"
+    usage: "/hat"
+    permission: vindex.hat
+    permission-message: "You're missing vindex.hat"
