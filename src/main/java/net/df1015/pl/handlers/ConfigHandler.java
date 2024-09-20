@@ -1,12 +1,12 @@
-package net.df1015.pl;
+package net.df1015.pl.handlers;
 
 import dev.kokiriglade.popcorn.config.AbstractConfigurationManager;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
-public class HatConfig extends AbstractConfigurationManager {
+public class ConfigHandler extends AbstractConfigurationManager {
 
-    public HatConfig(@NotNull Plugin plugin) {
+    public ConfigHandler(@NotNull Plugin plugin) {
         super(plugin, "config.yml");
         reload();
     }

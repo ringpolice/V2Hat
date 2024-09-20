@@ -1,10 +1,12 @@
-package net.df1015.pl;
+package net.df1015.pl.commands;
 
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
+import net.df1015.pl.Hat;
+import net.df1015.pl.handlers.GuiHandler;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -29,7 +31,7 @@ public class HatCommand implements dev.kokiriglade.popcorn.command.Command<Liter
                     String open = config.getString("sounds.menu-open");
 
                     player.getWorld().playSound(player, Sound.valueOf(open), 3.0F, 0.5F);
-                    new HatGUI(4, Component.text("Hat Menu")).show(player);
+                    new GuiHandler(4, Component.text("Hat Menu")).show(player);
 
                     return Command.SINGLE_SUCCESS;
                 });

@@ -2,6 +2,9 @@ package net.df1015.pl;
 
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
+import net.df1015.pl.commands.HatCommand;
+import net.df1015.pl.handlers.ConfigHandler;
+import net.df1015.pl.handlers.InventoryEvent;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -12,7 +15,7 @@ import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
 public class Hat extends JavaPlugin implements Listener {
-    private HatConfig config;
+    private ConfigHandler config;
     private LuckPerms api;
     private static Economy econ = null;
 
@@ -21,7 +24,7 @@ public class Hat extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(this, this);
         Bukkit.getPluginManager().registerEvents(new InventoryEvent(), this);
 
-       this.config = new HatConfig(this);
+       this.config = new ConfigHandler(this);
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
         if (provider != null) {
@@ -41,7 +44,7 @@ public class Hat extends JavaPlugin implements Listener {
             getServer().getPluginManager().disablePlugin(this);
         }
     }
-    public HatConfig getConfigManager(){
+    public ConfigHandler getConfigManager(){
         return config;
     }
 

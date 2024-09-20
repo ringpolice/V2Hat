@@ -15,9 +15,11 @@ gui:
   owned:
     item: 'CHEST'
     display: '<red>Owned Hats</red>'
+    title: 'Your hats:'
   shop:
     item: 'EMERALD_BLOCK'
     display: '<green>Hat Shop</green>'
+    title: 'Hats for sale:'
   clear:
     item: 'BARRIER'
     display: '<red>Clear Hat</red>'

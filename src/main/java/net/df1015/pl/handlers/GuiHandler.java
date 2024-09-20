@@ -1,14 +1,14 @@
-package net.df1015.pl;
+package net.df1015.pl.handlers;
 
 import dev.kokiriglade.popcorn.builder.text.MessageBuilder;
 import dev.kokiriglade.popcorn.inventory.gui.GuiItem;
 import dev.kokiriglade.popcorn.inventory.gui.type.ChestGui;
 import dev.kokiriglade.popcorn.inventory.pane.PaginatedPane;
+import net.df1015.pl.Hat;
 import net.df1015.pl.menus.CurrentlyOwned;
 import net.df1015.pl.menus.HatShop;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -16,9 +16,9 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Arrays;
 
-public class HatGUI extends ChestGui {
+public class GuiHandler extends ChestGui {
 
-    public HatGUI(int rows, @NonNull Component title) {
+    public GuiHandler(int rows, @NonNull Component title) {
         super(rows, title);
         Hat plugin = Hat.getPlugin(Hat.class);
         FileConfiguration config = plugin.getConfig();
@@ -26,10 +26,13 @@ public class HatGUI extends ChestGui {
 
         String ownedHatMenuItem = config.getString("gui.owned.item");
         MessageBuilder ownedHatMenuDisplay = MessageBuilder.of(plugin,  config.getString("gui.owned.display"));
+        MessageBuilder ownedHatMenuTitle = MessageBuilder.of(plugin,  config.getString("gui.shop.title"));
 
 
         String shopHatMenuItem = config.getString("gui.shop.item");
         MessageBuilder shopHatMenuDisplay = MessageBuilder.of(plugin,  config.getString("gui.shop.display"));
+        MessageBuilder shopHatMenuTitle = MessageBuilder.of(plugin,  config.getString("gui.shop.title"));
+
 
         // to-do:
         // add clear hat button
@@ -52,14 +55,14 @@ public class HatGUI extends ChestGui {
                     if(event.isLeftClick() || event.isRightClick()) {
                         event.setCancelled(true);
                         shopMenu.clear();
-                        new CurrentlyOwned(4, Component.text("Your hats:"), event.getWhoClicked()).show(event.getWhoClicked());
+                        new CurrentlyOwned(4, ownedHatMenuTitle.component(), event.getWhoClicked()).show(event.getWhoClicked());
                     }
                 }),
                 new GuiItem(shopItem, (event) -> {
                     if(event.isLeftClick() || event.isRightClick()) {
                         event.setCancelled(true);
                         shopMenu.clear();
-                        new HatShop(4, Component.text("Purchasable hats:"), event.getWhoClicked()).show(event.getWhoClicked());
+                        new HatShop(4, shopHatMenuTitle.component(), event.getWhoClicked()).show(event.getWhoClicked());
                     }
                 })
         ));

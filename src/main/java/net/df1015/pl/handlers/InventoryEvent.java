@@ -1,5 +1,6 @@
-package net.df1015.pl;
+package net.df1015.pl.handlers;
 
+import net.df1015.pl.Hat;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
