@@ -1,6 +1,6 @@
-name: V2Hat
-version: 1.0
-main: net.df1015.pl.Hat
+name: hats
+version: "1.0"
+main: net.df1015.hats.HatPlugin
 api-version: '1.21.1'
 author: ringpolice
 
@@ -18,14 +18,8 @@ dependencies:
       load: BEFORE
       required: true
       join-classpath: true
-permissions :
+
+permissions:
   vindex.hat:
     description: "Permission to open hat shop"
     default: not op
-
-commands:
-  hat:
-    description: "Open hat menu"
-    usage: "/hat"
-    permission: vindex.hat
-    permission-message: "You're missing vindex.hat"

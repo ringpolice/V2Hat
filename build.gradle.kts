@@ -4,7 +4,7 @@ plugins {
 }
 
 
-group = "org.example"
+group = "net.df1015"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -19,7 +19,6 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
     compileOnly("net.luckperms:api:5.4")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7")
-    implementation("net.kyori:adventure-text-minimessage:4.17.0")
 
 }
 java {
@@ -27,15 +26,19 @@ java {
 }
 tasks {
     runServer {
-        // Configure the Minecraft version for our task.
-        // This is the only required configuration besides applying the plugin.
-        // Your plugin's jar (or shadowJar if present) will be used automatically.
         minecraftVersion("1.21.1")
         downloadPlugins {
             hangar("popcorn", "3.3.4")
+            github("MilkBowl", "Vault", "1.7.3", "Vault.jar")
+            url("https://download.luckperms.net/1556/bukkit/loader/LuckPerms-Bukkit-5.4.141.jar")
+            url("https://ci.minebench.de/job/FakeEconomy/lastSuccessfulBuild/artifact/target/FakeEconomy.jar")
+        }
+        doFirst {
+            file("run/plugins/hats").deleteRecursively()
         }
     }
 }
+
 tasks.test {
     useJUnitPlatform()
 }

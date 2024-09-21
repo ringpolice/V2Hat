@@ -1,56 +1,61 @@
-package net.df1015.pl;
+package net.df1015.hats;
 
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
-import net.df1015.pl.commands.HatCommand;
-import net.df1015.pl.handlers.ConfigHandler;
-import net.df1015.pl.handlers.InventoryEvent;
+import net.df1015.hats.commands.HatCommand;
+import net.df1015.hats.handlers.ConfigHandler;
+import net.df1015.hats.handlers.InventoryEvent;
 import net.luckperms.api.LuckPerms;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import net.milkbowl.vault.economy.Economy;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
-public class Hat extends JavaPlugin implements Listener {
-    private ConfigHandler config;
-    private LuckPerms api;
-    private static Economy econ = null;
+public class HatPlugin extends JavaPlugin {
+
+    private static @MonotonicNonNull Economy econ = null;
+    private @MonotonicNonNull ConfigHandler config;
+    private @MonotonicNonNull LuckPerms api;
+
+    public static @NonNull Economy getEconomy() {
+        return econ;
+    }
 
     @Override
     public void onEnable() {
-        Bukkit.getPluginManager().registerEvents(this, this);
-        Bukkit.getPluginManager().registerEvents(new InventoryEvent(), this);
+        new InventoryEvent(this);
 
-       this.config = new ConfigHandler(this);
+        this.config = new ConfigHandler(this);
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
         if (provider != null) {
-            LuckPerms api = provider.getProvider();
-
+            api = provider.getProvider();
         }
+
         getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
             final Commands commands = event.registrar();
 
-            commands.register(new HatCommand().get(this)
-                            .build(),
-                    List.of("hat")
-            );
+            commands.register(new HatCommand().get(this).build(), List.of("hat"));
         });
-        if (!setupEconomy() ) {
-            getLogger().severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
+        if (!setupEconomy()) {
+            getLogger().severe("Disabled due to no vault ");
             getServer().getPluginManager().disablePlugin(this);
         }
     }
-    public ConfigHandler getConfigManager(){
+
+    public @NonNull ConfigHandler getConfigManager() {
         return config;
     }
 
-    public LuckPerms getApi() {
+    public @NonNull LuckPerms getApi() {
         return api;
     }
+
     private boolean setupEconomy() {
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
@@ -62,9 +67,7 @@ public class Hat extends JavaPlugin implements Listener {
         econ = rsp.getProvider();
         return econ != null;
     }
-    public static Economy getEconomy() {
-        return econ;
-    }
+
 }
 
 
