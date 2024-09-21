@@ -54,6 +54,8 @@ public class CurrentlyOwned extends ChestGui implements EventListener {
 
         ArrayList<GuiItem> hatPerms = new ArrayList<>();
 
+        // todo pagination
+
 
         for (String owned : config.getDocument().getSection("hats").getRoutesAsStrings(false)) {
             String material = config.getDocument().getString("hats." + owned + ".data.item");

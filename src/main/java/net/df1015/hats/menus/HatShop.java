@@ -60,6 +60,8 @@ public class HatShop extends ChestGui {
             hatMeta.itemName(disp.component());
             hatMeta.lore(List.of(Component.text("$" + price).color(NamedTextColor.GREEN)));
 
+            // todo pagination
+
             hat.setItemMeta(hatMeta);
             if (!player.hasPermission(permission)) {
                 guiItems.add(new GuiItem(hat, (event) -> {
