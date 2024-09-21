@@ -22,7 +22,7 @@ public class HatCommand implements dev.kokiriglade.popcorn.command.Command<Liter
     @Override
     public LiteralArgumentBuilder<CommandSourceStack> get(final Hat plugin) {
         return Commands.literal("hat")
-                .requires(commandSourceStack -> commandSourceStack.getSender().hasPermission("vindex.hat")
+                .requires(commandSourceStack -> (commandSourceStack.getSender().isOp() || commandSourceStack.getSender().hasPermission("vindex.hat"))
                         && commandSourceStack.getSender() instanceof Player)
                 .executes(context ->{
                     FileConfiguration config = plugin.getConfig();
