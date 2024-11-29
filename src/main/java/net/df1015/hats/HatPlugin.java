@@ -13,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.util.EventListener;
 import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
@@ -28,7 +29,11 @@ public class HatPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        new InventoryEvent(this);
+
+        // creates the inventoryEvent, registers LuckPerms and Vault, initiates the plugin
+
+//        new InventoryEvent(this);
+        Bukkit.getServer().getPluginManager().registerEvents(new InventoryEvent(), this);
 
         this.config = new ConfigHandler(this);
 

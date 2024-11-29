@@ -1,27 +1,83 @@
 version: 1
 lang:
-  buy-success: '<green><sm>Success!</sm></green> <white>You have purchased the</white> <yellow><hat></yellow> <white>for</white> <green>$<price></green>'
-  insufficient-balance: '<red><sm>Error!</sm></red> <white>You do not have</white> <green>$<price></green>'
-  activate: '<green><sm>Success!</sm></green> <white>You have put on the</white> <yellow><hat></yellow>'
-  clear-hat: '<green><sm>Success!</sm></green> <white>You have remove your hat.'
-  no-hat: '<red><sm>Error!</sm></red> <white>You do not have a hat on!</white>'
+  buy-success: <green><sm>Success!</sm></green> <white>You have purchased the</white> <yellow><hat></yellow> <white>for</white> <green>$<price></green>
+  insufficient-balance: <red><sm>Error!</sm></red> <white>You do not have</white> <green>$<price></green>
+  activate: <green><sm>Success!</sm></green> <white>You have put on the</white> <yellow><hat></yellow>
+  clear-hat: <green><sm>Success!</sm></green> <white>You have remove your hat.
+  no-hat: <red><sm>Error!</sm></red> <white>You do not have a hat on!</white>
 
 sounds:
-  menu-open: 'ITEM_BOOK_PAGE_TURN'
-  activate: 'ITEM_TRIDENT_RETURN'
-  error: 'BLOCK_BONE_BLOCK_BREAK'
+  menu-open: ITEM_BOOK_PAGE_TURN
+  activate: ITEM_TRIDENT_RETURN
+  error: BLOCK_BONE_BLOCK_BREAK
 
 gui:
   owned:
-    item: 'CHEST'
-    display: '<red>Owned Hats</red>'
+    item: CHEST
+    display: <red>Owned Hats</red>
     title: 'Your hats:'
   shop:
-    item: 'EMERALD_BLOCK'
-    display: '<green>Hat Shop</green>'
+    item: EMERALD_BLOCK
+    display: <green>Hat Shop</green>
     title: 'Hats for sale:'
   clear:
-    item: 'BARRIER'
-    display: '<red>Clear Hat</red>'
+    item: BARRIER
+    display: <red>Clear Hat</red>
 
-hats: {}
+hats:
+  firefighter:
+    data:
+      item: FEATHER
+      display: Firefighter Helmet
+      texture: 0
+    permission: vindex.hat.firefighter
+    price: 0.0
+  witch:
+    data:
+      item: FEATHER
+      display: Witch Hat
+      texture: 0
+    permission: vindex.hat.witch
+    price: 15.0
+    job: false
+  cowboy:
+    data:
+      item: FEATHER
+      display: Cowboy Hat
+      texture: 0
+    permission: vindex.hat.cowboy
+    price: 15.0
+    job: false
+  tcone:
+    data:
+      item: FEATHER
+      display: Traffic Cone Hat
+      texture: 0
+    permission: vindex.hat.tcone
+    price: 15.0
+    job: false
+  atm:
+    data:
+      item: FEATHER
+      display: ATM Hat
+      texture: 0
+    permission: vindex.hat.atm
+    price: 15.0
+    job: false
+  baseball:
+    data:
+      item: FEATHER
+      display: Baseball Cap
+      texture: 0
+    permission: vindex.hat.baseball
+    price: 15.0
+    job: false
+  fishing:
+    data:
+      item: FEATHER
+      display: Fishing Hat
+      texture: 0
+    permission: vindex.hat.fishing
+    price: 15.0
+    job: false
+

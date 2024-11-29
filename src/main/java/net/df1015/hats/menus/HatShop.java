@@ -41,7 +41,7 @@ public class HatShop extends ChestGui {
         for (final String available : config.getDocument().getSection("hats").getRoutesAsStrings(false)) {
             String material = config.getDocument().getString("hats." + available + ".data.item");
 
-            MessageBuilder disp = MessageBuilder.of(plugin, config.getDocument().getString("hats." + available + ".data.display"));
+            MessageBuilder display = MessageBuilder.of(plugin, config.getDocument().getString("hats." + available + ".data.display"));
 
             Integer texture = config.getDocument().getInt("hats." + available + ".data.texture");
             String permission = config.getDocument().getString("hats." + available + ".permission");
@@ -49,15 +49,15 @@ public class HatShop extends ChestGui {
             String error = config.getDocument().getString("sounds.error");
 
 
-            MessageBuilder success = MessageBuilder.of(plugin, config.getDocument().getString("lang.buy-success")).set("hat", disp.component()).set("price", Math.floor(price));
-            MessageBuilder nobalance = MessageBuilder.of(plugin, config.getDocument().getString("lang.insufficient-balance"))
-                .set("hat", disp.component())
+            MessageBuilder success = MessageBuilder.of(plugin, config.getDocument().getString("lang.buy-success")).set("hat", display.component()).set("price", Math.floor(price));
+            MessageBuilder noBalance = MessageBuilder.of(plugin, config.getDocument().getString("lang.insufficient-balance"))
+                .set("hat", display.component())
                 .set("price", Math.floor(price));
 
             ItemStack hat = new ItemStack(Material.valueOf(material)); // currently available hats
             ItemMeta hatMeta = hat.getItemMeta();
             hatMeta.setCustomModelData(texture);
-            hatMeta.itemName(disp.component());
+            hatMeta.itemName(display.component());
             hatMeta.lore(List.of(Component.text("$" + price).color(NamedTextColor.GREEN)));
 
             // todo pagination
@@ -68,7 +68,7 @@ public class HatShop extends ChestGui {
                     if (event.isLeftClick() || event.isRightClick()) {
                         if (econ.hasAccount((OfflinePlayer) player)) {
                             if (!econ.has((OfflinePlayer) player, price)) {
-                                player.sendMessage(nobalance.component());
+                                player.sendMessage(noBalance.component());
                                 event.getWhoClicked()
                                     .playSound(net.kyori.adventure.sound.Sound.sound().type(org.bukkit.Sound.valueOf(error).key()).volume(3.0f).pitch(0.5f).build(),
                                         net.kyori.adventure.sound.Sound.Emitter.self()

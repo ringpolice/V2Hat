@@ -1,4 +1,4 @@
-name: hats
+name: V2Hats
 version: "1.0"
 main: net.df1015.hats.HatPlugin
 api-version: '1.21.1'

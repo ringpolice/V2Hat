@@ -16,6 +16,8 @@ import org.checkerframework.framework.qual.DefaultQualifier;
 @SuppressWarnings("UnstableApiUsage")
 public final class HatCommand implements dev.kokiriglade.popcorn.command.Command<LiteralArgumentBuilder<CommandSourceStack>, HatPlugin> {
 
+    // initial GUI for the /hat command
+
     @Override
     public LiteralArgumentBuilder<CommandSourceStack> get(final HatPlugin plugin) {
         return Commands.literal("hat")
@@ -30,6 +32,7 @@ public final class HatCommand implements dev.kokiriglade.popcorn.command.Command
                 player.playSound(net.kyori.adventure.sound.Sound.sound().type(org.bukkit.Sound.valueOf(open).key()).volume(3.0f).pitch(0.5f).build(),
                     net.kyori.adventure.sound.Sound.Emitter.self()
                 );
+                //opens the GUI
                 new MainMenu(1, Component.text("Hat Menu")).show(player);
 
                 return Command.SINGLE_SUCCESS;

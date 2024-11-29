@@ -28,6 +28,9 @@ public class CurrentlyOwned extends ChestGui implements EventListener {
 
         PaginatedPane ownedMenu = new PaginatedPane(0, 0, 9, 5);
         StaticPane clearHat = new StaticPane(4, 5, 1, 1);
+
+        this.addPane(ownedMenu);
+        this.addPane(clearHat);
         clearHat.setPriority(Pane.Priority.HIGHEST);
 
         String clearItem = config.getDocument().getString("gui.clear.item");
@@ -35,7 +38,7 @@ public class CurrentlyOwned extends ChestGui implements EventListener {
         MessageBuilder clear = MessageBuilder.of(plugin, config.getDocument().getString("lang.clear-hat"));
         MessageBuilder noClear = MessageBuilder.of(plugin, config.getDocument().getString("lang.no-hat"));
 
-        ItemStack clearHats = new ItemStack(Material.valueOf(clearItem)); // currently available hats
+        ItemStack clearHats = new ItemStack(Material.valueOf(clearItem));
         ItemMeta clearMeta = clearHats.getItemMeta();
         clearMeta.itemName(clearItemDisplay.component());
         clearHats.setItemMeta(clearMeta);
@@ -65,28 +68,50 @@ public class CurrentlyOwned extends ChestGui implements EventListener {
             Double price = config.getDocument().getDouble("hats." + owned + ".price");
             MessageBuilder activate = MessageBuilder.of(plugin, config.getDocument().getString("lang.activate")).set("hat", disp.component()).set("price", Math.floor(price));
             String activateSound = config.getDocument().getString("sounds.activate");
+//            if(hatPerms.isEmpty()) {
+//
+//                ItemStack emptyHat = new ItemStack(Material.BARRIER); // empty hat
+//                ItemMeta emptyHatMeta = emptyHat.getItemMeta();
+//                emptyHatMeta.setCustomModelData(texture);
+//                emptyHatMeta.itemName(disp.component());
+//                emptyHat.setItemMeta(emptyHatMeta);
+//
+//
+//                hatPerms.add(new GuiItem(emptyHat, (event) -> {
+//                    if (event.isLeftClick() || event.isRightClick()) {
+//
+//                    }
+//                }));
+//            }else{
+                if (player.hasPermission(permission)) {
+                    ItemStack hat = new ItemStack(Material.valueOf(material)); // currently available hats
+//                    ItemMeta hatMeta = hat.getItemMeta();
+//                    hatMeta.setCustomModelData(texture);
+//                    hatMeta.itemName(disp.component());
+//                    hat.setItemMeta(hatMeta);
 
-            if (player.hasPermission(permission)) {
-                ItemStack hat = new ItemStack(Material.valueOf(material)); // currently available hats
-                ItemMeta hatMeta = hat.getItemMeta();
-                hatMeta.setCustomModelData(texture);
-                hatMeta.itemName(disp.component());
-                hat.setItemMeta(hatMeta);
 
+                    hatPerms.add(new GuiItem(hat, (event) -> {
+                        if (event.isLeftClick() || event.isRightClick()) {
 
-                hatPerms.add(new GuiItem(hat, (event) -> {
-                    if (event.isLeftClick() || event.isRightClick()) {
-                        event.setCancelled(true);
-                        event.getWhoClicked().getInventory().setHelmet(hat);
-                        event.getWhoClicked().playSound(Sound.sound().type(org.bukkit.Sound.valueOf(activateSound).key()).volume(3.0f).pitch(0.5f).build(), Sound.Emitter.self());
-                        player.sendMessage(activate.component());
-                    }
-                }));
+                            ItemMeta hatMeta = hat.getItemMeta();
+                            hatMeta.setCustomModelData(texture);
+                            hatMeta.itemName(disp.component());
+                            hat.setItemMeta(hatMeta);
+                            event.getWhoClicked().sendMessage(hat.getItemMeta() != null ? "meta not null" : "null");
+
+                            event.setCancelled(true);
+                            event.getWhoClicked().getInventory().setHelmet(hat);
+                            event.getWhoClicked().playSound(Sound.sound().type(org.bukkit.Sound.valueOf(activateSound).key()).volume(3.0f).pitch(0.5f).build(), Sound.Emitter.self());
+                            player.sendMessage(activate.component());
+                            player.sendMessage("text: " + texture.toString() + " - cusData: " + (hat.getItemMeta() != null ? hat.getItemMeta().getCustomModelData() : "null"));
+
+                        }
+                    }));
+//                }
             }
             ownedMenu.populateWithGuiItems(hatPerms);
         }
-        this.addPane(ownedMenu);
-        this.addPane(clearHat);
 
 
     }
