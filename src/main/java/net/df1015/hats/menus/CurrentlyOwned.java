@@ -29,6 +29,8 @@ public class CurrentlyOwned extends ChestGui implements EventListener {
         PaginatedPane ownedMenu = new PaginatedPane(0, 0, 9, 5);
         StaticPane clearHat = new StaticPane(4, 5, 1, 1);
 
+        //ownedMenu.setOnClick(event -> event.setCancelled(true));
+
         this.addPane(ownedMenu);
         this.addPane(clearHat);
         clearHat.setPriority(Pane.Priority.HIGHEST);

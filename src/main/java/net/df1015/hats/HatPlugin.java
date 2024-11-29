@@ -70,7 +70,7 @@ public class HatPlugin extends JavaPlugin {
             return false;
         }
         econ = rsp.getProvider();
-        return econ != null;
+        return true;
     }
 
 }

@@ -21,6 +21,8 @@ public class MainMenu extends ChestGui {
         final ConfigHandler config = plugin.getConfigManager();
         final StaticPane menuPane = new StaticPane(0, 0, 9, 1);
 
+       // menuPane.setOnClick(event -> event.setCancelled(true));
+
         String ownedHatMenuItem = config.getDocument().getString("gui.owned.item");
         MessageBuilder ownedHatMenuDisplay = MessageBuilder.of(plugin, config.getDocument().getString("gui.owned.display"));
         MessageBuilder ownedHatMenuTitle = MessageBuilder.of(plugin, config.getDocument().getString("gui.shop.title"));
@@ -46,16 +48,20 @@ public class MainMenu extends ChestGui {
         menuPane.addItem(new GuiItem(hat, (event) -> {
             if (event.isLeftClick() || event.isRightClick()) {
                 event.setCancelled(true);
-                new CurrentlyOwned(ownedHatMenuTitle.component(), event.getWhoClicked(), plugin).show(event.getWhoClicked());
+                ChestGui currentOwned = new CurrentlyOwned(ownedHatMenuTitle.component(),event.getWhoClicked(),plugin);
+                currentOwned.setOnGlobalClick(event1 -> event1.setCancelled(true));
+                currentOwned.show(event.getWhoClicked());
             }
         }), Slot.fromXY(3, 0));
 
         // todo clear hat button here
 
         menuPane.addItem(new GuiItem(shopItem, (event) -> {
-            if (event.isLeftClick() || event.isRightClick()) {
+            if (event.isLeftClick() || event.isRightClick() ) {
                 event.setCancelled(true);
-                new HatShop(shopHatMenuTitle.component(), event.getWhoClicked(), plugin).show(event.getWhoClicked());
+                ChestGui shopHatMenu = new HatShop(shopHatMenuTitle.component(), event.getWhoClicked(), plugin);
+                shopHatMenu.setOnGlobalClick(event1 -> event1.setCancelled(true));
+                shopHatMenu.show(event.getWhoClicked());
             }
         }), Slot.fromXY(5, 0));
 

@@ -38,6 +38,9 @@ public class HatShop extends ChestGui {
         final PaginatedPane shopMenu = new PaginatedPane(0, 0, 9, 5);
         final ArrayList<GuiItem> guiItems = new ArrayList<>();
 
+
+        //shopMenu.setOnClick(event -> event.setCancelled(true));
+
         for (final String available : config.getDocument().getSection("hats").getRoutesAsStrings(false)) {
             String material = config.getDocument().getString("hats." + available + ".data.item");
 

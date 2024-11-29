@@ -2,6 +2,7 @@ package net.df1015.hats.commands;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import dev.kokiriglade.popcorn.inventory.gui.type.ChestGui;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import net.df1015.hats.HatPlugin;
@@ -33,7 +34,10 @@ public final class HatCommand implements dev.kokiriglade.popcorn.command.Command
                     net.kyori.adventure.sound.Sound.Emitter.self()
                 );
                 //opens the GUI
-                new MainMenu(1, Component.text("Hat Menu")).show(player);
+                //new MainMenu(1, Component.text("Hat Menu")).show(player);
+                ChestGui Menu = new MainMenu(1,Component.text("Hat Menu"));
+                Menu.setOnGlobalClick(event -> event.setCancelled(true));
+                Menu.show(player);
 
                 return Command.SINGLE_SUCCESS;
             })
