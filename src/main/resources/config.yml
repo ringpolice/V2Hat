@@ -1,4 +1,5 @@
 version: 1
+debug: false
 lang:
   buy-success: <green><sm>Success!</sm></green> <white>You have purchased the</white> <yellow><hat></yellow> <white>for</white> <green>$<price></green>
   insufficient-balance: <red><sm>Error!</sm></red> <white>You do not have</white> <green>$<price></green>
@@ -25,59 +26,265 @@ gui:
     display: <red>Clear Hat</red>
 
 hats:
-  firefighter:
+  firefighter_visor:
     data:
       item: FEATHER
-      display: Firefighter Helmet
-      texture: 0
-    permission: vindex.hat.firefighter
+      display: Firefighter Helmet (<yellow>Visor</yellow>)
+      texture: 10007
+    permission: vindex.hat.firefighter_visor
+    price: 0.0
+  firefighter_no_visor:
+    data:
+      item: FEATHER
+      display: Firefighter Helmet (<yellow>No Visor</yellow>)
+      texture: 10006
+    permission: vindex.hat.firefighter_no_visor
     price: 0.0
   witch:
     data:
       item: FEATHER
       display: Witch Hat
-      texture: 0
+      texture: 10008
     permission: vindex.hat.witch
-    price: 15.0
-    job: false
-  cowboy:
-    data:
-      item: FEATHER
-      display: Cowboy Hat
-      texture: 0
-    permission: vindex.hat.cowboy
-    price: 15.0
-    job: false
-  tcone:
-    data:
-      item: FEATHER
-      display: Traffic Cone Hat
-      texture: 0
-    permission: vindex.hat.tcone
-    price: 15.0
+    price: 1000.0
     job: false
   atm:
     data:
       item: FEATHER
-      display: ATM Hat
-      texture: 0
+      display: ATM
+      texture: 10001
     permission: vindex.hat.atm
-    price: 15.0
-    job: false
-  baseball:
-    data:
-      item: FEATHER
-      display: Baseball Cap
-      texture: 0
-    permission: vindex.hat.baseball
-    price: 15.0
+    price: 10000.0
     job: false
   fishing:
     data:
       item: FEATHER
       display: Fishing Hat
-      texture: 0
+      texture: 10002
     permission: vindex.hat.fishing
-    price: 15.0
+    price: 1000.0
     job: false
-
+  police_hat_black:
+    data:
+      item: FEATHER
+      display: Police Hat (<yellow>Black</yellow>)
+      texture: 10003
+    permission: vindex.hat.police_hat_black
+    price: 0.0
+    job: true
+  police_hat_silver:
+    data:
+      item: FEATHER
+      display: Police Hat (<yellow>Silver</yellow>)
+      texture: 10004
+    permission: vindex.hat.police_hat_silver
+    price: 0.0
+    job: true
+  police_hat_gold:
+    data:
+      item: FEATHER
+      display: Police Hat (<yellow>Gold</yellow>)
+      texture: 10005
+    permission: vindex.hat.police_hat_gold
+    price: 0.0
+    job: true
+  beige_cowboy_hat:
+    data:
+      item: FEATHER
+      display: Cowboy Hat (<yellow>Beige</yellow>)
+      texture: 10009
+    permission: vindex.hat.cowboy_beige
+    price: 1000.0
+    job: false
+  police_cowboy_beige_black:
+    data:
+      item: FEATHER
+      display: Police Cowboy Hat (<yellow>Beige</yellow> - <yellow>Black</yellow>)
+      texture: 10010
+    permission: vindex.hat.police_cowboy_beige_black
+    price: 0.0
+    job: true
+  police_cowboy_beige_gold:
+    data:
+      item: FEATHER
+      display: Police Cowboy Hat (<yellow>Beige</yellow> - <yellow>Gold</yellow>)
+      texture: 10011
+    permission: vindex.hat.police_cowboy_beige_gold
+    price: 0.0
+    job: true
+  police_cowboy_beige_silver:
+    data:
+      item: FEATHER
+      display: Police Cowboy Hat (<yellow>Beige</yellow> - <yellow>Silver</yellow>)
+      texture: 10012
+    permission: vindex.hat.police_cowboy_beige_silver
+    price: 0.0
+    job: true
+  police_cowboy_black_black:
+    data:
+      item: FEATHER
+      display: Police Cowboy Hat (<yellow>Black</yellow> - <yellow>Black</yellow>)
+      texture: 10013
+    permission: vindex.hat.police_cowboy_black_black
+    price: 0.0
+    job: true
+  police_cowboy_black_gold:
+    data:
+      item: FEATHER
+      display: Police Cowboy Hat (<yellow>Black</yellow> - <yellow>Gold</yellow>)
+      texture: 10014
+    permission: vindex.hat.police_cowboy_black_gold
+    price: 0.0
+    job: true
+  police_cowboy_black_silver:
+    data:
+      item: FEATHER
+      display: Police Cowboy Hat (<yellow>Black</yellow> - <yellow>Silver</yellow>)
+      texture: 10015
+    permission: vindex.hat.police_cowboy_black_silver
+    price: 0.0
+    job: true
+  police_cowboy_brown_black:
+    data:
+      item: FEATHER
+      display: Police Cowboy Hat (<yellow>Brown</yellow> - <yellow>Black</yellow>)
+      texture: 10016
+    permission: vindex.hat.police_cowboy_brown_black
+    price: 0.0
+    job: true
+  police_cowboy_brown_gold:
+    data:
+      item: FEATHER
+      display: Police Cowboy Hat (<yellow>Brown</yellow> - <yellow>Gold</yellow>)
+      texture: 10017
+    permission: vindex.hat.police_cowboy_brown_gold
+    price: 0.0
+    job: true
+  police_cowboy_brown_silver:
+    data:
+      item: FEATHER
+      display: Police Cowboy Hat (<yellow>Brown</yellow> - <yellow>Silver</yellow>)
+      texture: 10018
+    permission: vindex.hat.police_cowboy_brown_silver
+    price: 0.0
+    job: true
+  traffic_cone:
+    data:
+      item: FEATHER
+      display: Traffic Cone
+      texture: 10019
+    permission: vindex.hat.traffic_cone
+    price: 1000.0
+    job: true
+  vindex_cap:
+    data:
+      item: FEATHER
+      display: Vindex Cap
+      texture: 10020
+    permission: vindex.hat.vindex_cap
+    price: 1000.0
+    job: false
+  frog_hat:
+    data:
+      item: FEATHER
+      display: Froggy Hat
+      texture: 10021
+    permission: vindex.hat.frog_hat
+    price: 10000.0
+    job: false
+  propeller_cap:
+    data:
+      item: FEATHER
+      display: Propeller Cap
+      texture: 10022
+    permission: vindex.hat.propeller_cap
+    price: 2500.0
+    job: false
+  signal_hat:
+    data:
+      item: FEATHER
+      display: Signal Hat
+      texture: 10023
+    permission: vindex.hat.signal_hat
+    price: 1000.0
+    job: false
+  minish_cap:
+    data:
+      item: FEATHER
+      display: Minish Cap
+      texture: 10024
+    permission: vindex.hat.minish_cap
+    price: 5000.0
+    job: false
+  santa_hat:
+    data:
+      item: FEATHER
+      display: Santa Hat
+      texture: 10025
+    permission: vindex.hat.santa_hat
+    price: 1000.0
+    job: false
+  party_hat:
+    data:
+      item: FEATHER
+      display: Party Hat
+      texture: 10026
+    permission: vindex.hat.party_hat
+    price: 0.0
+    job: true
+  pink_sunglasses_high:
+    data:
+      item: FEATHER
+      display: Pink Sunglasses (<yellow>High</yellow>)
+      texture: 10027
+    permission: vindex.hat.pink_sunglasses_high
+    price: 1000.0
+    job: false
+  pink_sunglasses_low:
+    data:
+      item: FEATHER
+      display: Pink Sunglasses (<yellow>Low</yellow>)
+      texture: 10028
+    permission: vindex.hat.pink_sunglasses_low
+    price: 1000.0
+    job: false
+  tomorrow_hat:
+    data:
+      item: FEATHER
+      display: Tomorrow Ban Hammer
+      texture: 10029
+    permission: vindex.hat.tomorrow
+    price: 1000.0
+    job: false
+  power_helmet:
+    data:
+      item: FEATHER
+      display: Power Helmet
+      texture: 10030
+    permission: vindex.hat.power_helmet
+    price: 10000.0
+    job: false
+  top_hat:
+    data:
+      item: FEATHER
+      display: Top Hat
+      texture: 10031
+    permission: vindex.hat.top_hat
+    price: 10000.0
+    job: false
+  goodburger_hat:
+    data:
+      item: FEATHER
+      display: Good Burger Hat
+      texture: 10032
+    permission: vindex.hat.goodburger_hat
+    price: 10000.0
+    job: false
+  bunny_hat:
+    data:
+      item: FEATHER
+      display: Bunny Hat
+      texture: 10033
+    permission: vindex.hat.bunny_hat
+    price: 10000.0
+    job: false

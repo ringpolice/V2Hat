@@ -61,57 +61,37 @@ public class CurrentlyOwned extends ChestGui implements EventListener {
 
         // todo pagination
 
-
         for (String owned : config.getDocument().getSection("hats").getRoutesAsStrings(false)) {
             String material = config.getDocument().getString("hats." + owned + ".data.item");
-            MessageBuilder disp = MessageBuilder.of(plugin, config.getDocument().getString("hats." + owned + ".data.display"));
+            Boolean debug = config.getDocument().getBoolean("debug");
+            MessageBuilder display = MessageBuilder.of(plugin, config.getDocument().getString("hats." + owned + ".data.display"));
             Integer texture = config.getDocument().getInt("hats." + owned + ".data.texture");
             String permission = config.getDocument().getString("hats." + owned + ".permission");
             Double price = config.getDocument().getDouble("hats." + owned + ".price");
-            MessageBuilder activate = MessageBuilder.of(plugin, config.getDocument().getString("lang.activate")).set("hat", disp.component()).set("price", Math.floor(price));
+            MessageBuilder activate = MessageBuilder.of(plugin, config.getDocument().getString("lang.activate")).set("hat", display.component()).set("price", Math.floor(price));
             String activateSound = config.getDocument().getString("sounds.activate");
-//            if(hatPerms.isEmpty()) {
-//
-//                ItemStack emptyHat = new ItemStack(Material.BARRIER); // empty hat
-//                ItemMeta emptyHatMeta = emptyHat.getItemMeta();
-//                emptyHatMeta.setCustomModelData(texture);
-//                emptyHatMeta.itemName(disp.component());
-//                emptyHat.setItemMeta(emptyHatMeta);
-//
-//
-//                hatPerms.add(new GuiItem(emptyHat, (event) -> {
-//                    if (event.isLeftClick() || event.isRightClick()) {
-//
-//                    }
-//                }));
-//            }else{
+
                 if (player.hasPermission(permission)) {
                     ItemStack hat = new ItemStack(Material.valueOf(material)); // currently available hats
-//                    ItemMeta hatMeta = hat.getItemMeta();
-//                    hatMeta.setCustomModelData(texture);
-//                    hatMeta.itemName(disp.component());
-//                    hat.setItemMeta(hatMeta);
-
-
                     hatPerms.add(new GuiItem(hat, (event) -> {
                         if (event.isLeftClick() || event.isRightClick()) {
+                            event.setCancelled(true);
 
                             ItemMeta hatMeta = hat.getItemMeta();
                             hatMeta.setCustomModelData(texture);
-                            hatMeta.itemName(disp.component());
+                            hatMeta.itemName(display.component());
                             hat.setItemMeta(hatMeta);
-                            event.getWhoClicked().sendMessage(hat.getItemMeta() != null ? "meta not null" : "null");
 
-                            event.setCancelled(true);
-                            event.getWhoClicked().getInventory().setHelmet(hat);
-                            event.getWhoClicked().playSound(Sound.sound().type(org.bukkit.Sound.valueOf(activateSound).key()).volume(3.0f).pitch(0.5f).build(), Sound.Emitter.self());
+                            player.getInventory().setHelmet(hat);
+                            player.playSound(Sound.sound().type(org.bukkit.Sound.valueOf(activateSound).key()).volume(3.0f).pitch(0.5f).build(), Sound.Emitter.self());
                             player.sendMessage(activate.component());
-                            player.sendMessage("text: " + texture.toString() + " - cusData: " + (hat.getItemMeta() != null ? hat.getItemMeta().getCustomModelData() : "null"));
+                            if(debug)
+                            player.sendMessage("DEBUG: texture.toString(): " + texture.toString() +
+                                               " - hat.getItemMeta().getCustomModelData(): " + (hat.getItemMeta() != null ? hat.getItemMeta() : "null"));
 
                         }
                     }));
-//                }
-            }
+                }
             ownedMenu.populateWithGuiItems(hatPerms);
         }
 

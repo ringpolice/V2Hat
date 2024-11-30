@@ -14,24 +14,19 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class MainMenu extends ChestGui {
-
     public MainMenu(int rows, @NonNull Component title) {
         super(rows, title);
         HatPlugin plugin = HatPlugin.getPlugin(HatPlugin.class);
         final ConfigHandler config = plugin.getConfigManager();
         final StaticPane menuPane = new StaticPane(0, 0, 9, 1);
 
-       // menuPane.setOnClick(event -> event.setCancelled(true));
-
         String ownedHatMenuItem = config.getDocument().getString("gui.owned.item");
         MessageBuilder ownedHatMenuDisplay = MessageBuilder.of(plugin, config.getDocument().getString("gui.owned.display"));
         MessageBuilder ownedHatMenuTitle = MessageBuilder.of(plugin, config.getDocument().getString("gui.shop.title"));
 
-
         String shopHatMenuItem = config.getDocument().getString("gui.shop.item");
         MessageBuilder shopHatMenuDisplay = MessageBuilder.of(plugin, config.getDocument().getString("gui.shop.display"));
         MessageBuilder shopHatMenuTitle = MessageBuilder.of(plugin, config.getDocument().getString("gui.shop.title"));
-
 
         ItemStack hat = new ItemStack(Material.valueOf(ownedHatMenuItem)); // currently owned hats
         ItemMeta hatMeta = hat.getItemMeta();

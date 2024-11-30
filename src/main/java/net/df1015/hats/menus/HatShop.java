@@ -66,7 +66,7 @@ public class HatShop extends ChestGui {
             // todo pagination
 
             hat.setItemMeta(hatMeta);
-            if (!player.hasPermission(permission)) {
+            if (player.hasPermission(permission) || player.isOp()) {
                 guiItems.add(new GuiItem(hat, (event) -> {
                     if (event.isLeftClick() || event.isRightClick()) {
                         if (econ.hasAccount((OfflinePlayer) player)) {
@@ -89,7 +89,6 @@ public class HatShop extends ChestGui {
             }
         }
         shopMenu.populateWithGuiItems(guiItems);
-
         this.addPane(shopMenu);
     }
 
