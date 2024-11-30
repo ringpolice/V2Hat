@@ -2,6 +2,7 @@ package net.df1015.hats.commands;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import dev.kokiriglade.popcorn.builder.text.MessageBuilder;
 import dev.kokiriglade.popcorn.inventory.gui.type.ChestGui;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
@@ -27,14 +28,13 @@ public final class HatCommand implements dev.kokiriglade.popcorn.command.Command
             .executes(context -> {
                 final ConfigHandler config = plugin.getConfigManager();
 
+
                 final Player player = (Player) context.getSource().getSender();
                 String open = config.getDocument().getString("sounds.menu-open");
 
                 player.playSound(net.kyori.adventure.sound.Sound.sound().type(org.bukkit.Sound.valueOf(open).key()).volume(3.0f).pitch(0.5f).build(),
                     net.kyori.adventure.sound.Sound.Emitter.self()
                 );
-                //opens the GUI
-                //new MainMenu(1, Component.text("Hat Menu")).show(player);
                 ChestGui Menu = new MainMenu(1,Component.text("Hat Menu"));
                 Menu.setOnGlobalClick(event -> event.setCancelled(true));
                 Menu.show(player);
@@ -42,8 +42,10 @@ public final class HatCommand implements dev.kokiriglade.popcorn.command.Command
                 return Command.SINGLE_SUCCESS;
             })
             .then(Commands.literal("reload").requires(commandSourceStack -> commandSourceStack.getSender().hasPermission("hat.admin")).executes(context -> {
-                context.getSource().getSender().sendMessage("reloaded config");
+                final ConfigHandler config = plugin.getConfigManager();
+                MessageBuilder reload = MessageBuilder.of(plugin, config.getDocument().getString("lang.reload"));
 
+                context.getSource().getSender().sendMessage(reload.component());
                 plugin.getConfigManager().reload();
 
                 return Command.SINGLE_SUCCESS;

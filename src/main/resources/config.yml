@@ -1,11 +1,13 @@
 version: 1
 debug: false
 lang:
-  buy-success: <green><sm>Success!</sm></green> <white>You have purchased the</white> <yellow><hat></yellow> <white>for</white> <green>$<price></green>
-  insufficient-balance: <red><sm>Error!</sm></red> <white>You do not have</white> <green>$<price></green>
-  activate: <green><sm>Success!</sm></green> <white>You have put on the</white> <yellow><hat></yellow>
+  buy-success: <green><sm>Success!</sm></green> <white>You have purchased the</white> <yellow><_hat_></yellow> <white>for</white> <green><_price_></green>
+  insufficient-balance: <red><sm>Error!</sm></red> <white>You do not have</white> <green><_price_></green>
+  activate: <green><sm>Success!</sm></green> <white>You have put on the</white> <yellow><_hat_></yellow>
   clear-hat: <green><sm>Success!</sm></green> <white>You have remove your hat.
   no-hat: <red><sm>Error!</sm></red> <white>You do not have a hat on!</white>
+  reload: <green><sm>Success!</sm></green> <yellow>Reloaded config.yml</yellow>
+  money-symbol: $
 
 sounds:
   menu-open: ITEM_BOOK_PAGE_TURN
@@ -24,6 +26,12 @@ gui:
   clear:
     item: BARRIER
     display: <red>Clear Hat</red>
+  Back:
+    item: BARRIER
+    display: <red>Back</red>
+  Exit:
+    item: BARRIER
+    display: <red>Exit Menu</red>
 
 hats:
   firefighter_visor:
@@ -33,6 +41,7 @@ hats:
       texture: 10007
     permission: vindex.hat.firefighter_visor
     price: 0.0
+    job: false
   firefighter_no_visor:
     data:
       item: FEATHER
@@ -40,6 +49,7 @@ hats:
       texture: 10006
     permission: vindex.hat.firefighter_no_visor
     price: 0.0
+    job: false
   witch:
     data:
       item: FEATHER
@@ -71,7 +81,7 @@ hats:
       texture: 10003
     permission: vindex.hat.police_hat_black
     price: 0.0
-    job: true
+    job: false
   police_hat_silver:
     data:
       item: FEATHER
@@ -79,7 +89,7 @@ hats:
       texture: 10004
     permission: vindex.hat.police_hat_silver
     price: 0.0
-    job: true
+    job: false
   police_hat_gold:
     data:
       item: FEATHER
@@ -87,7 +97,7 @@ hats:
       texture: 10005
     permission: vindex.hat.police_hat_gold
     price: 0.0
-    job: true
+    job: false
   beige_cowboy_hat:
     data:
       item: FEATHER
@@ -103,7 +113,7 @@ hats:
       texture: 10010
     permission: vindex.hat.police_cowboy_beige_black
     price: 0.0
-    job: true
+    job: false
   police_cowboy_beige_gold:
     data:
       item: FEATHER
@@ -111,7 +121,7 @@ hats:
       texture: 10011
     permission: vindex.hat.police_cowboy_beige_gold
     price: 0.0
-    job: true
+    job: false
   police_cowboy_beige_silver:
     data:
       item: FEATHER
@@ -119,7 +129,7 @@ hats:
       texture: 10012
     permission: vindex.hat.police_cowboy_beige_silver
     price: 0.0
-    job: true
+    job: false
   police_cowboy_black_black:
     data:
       item: FEATHER
@@ -127,7 +137,7 @@ hats:
       texture: 10013
     permission: vindex.hat.police_cowboy_black_black
     price: 0.0
-    job: true
+    job: false
   police_cowboy_black_gold:
     data:
       item: FEATHER
@@ -135,7 +145,7 @@ hats:
       texture: 10014
     permission: vindex.hat.police_cowboy_black_gold
     price: 0.0
-    job: true
+    job: false
   police_cowboy_black_silver:
     data:
       item: FEATHER
@@ -143,7 +153,7 @@ hats:
       texture: 10015
     permission: vindex.hat.police_cowboy_black_silver
     price: 0.0
-    job: true
+    job: false
   police_cowboy_brown_black:
     data:
       item: FEATHER
@@ -151,7 +161,7 @@ hats:
       texture: 10016
     permission: vindex.hat.police_cowboy_brown_black
     price: 0.0
-    job: true
+    job: false
   police_cowboy_brown_gold:
     data:
       item: FEATHER
@@ -159,7 +169,7 @@ hats:
       texture: 10017
     permission: vindex.hat.police_cowboy_brown_gold
     price: 0.0
-    job: true
+    job: false
   police_cowboy_brown_silver:
     data:
       item: FEATHER
@@ -167,7 +177,7 @@ hats:
       texture: 10018
     permission: vindex.hat.police_cowboy_brown_silver
     price: 0.0
-    job: true
+    job: false
   traffic_cone:
     data:
       item: FEATHER
@@ -175,7 +185,7 @@ hats:
       texture: 10019
     permission: vindex.hat.traffic_cone
     price: 1000.0
-    job: true
+    job: false
   vindex_cap:
     data:
       item: FEATHER
@@ -231,7 +241,7 @@ hats:
       texture: 10026
     permission: vindex.hat.party_hat
     price: 0.0
-    job: true
+    job: false
   pink_sunglasses_high:
     data:
       item: FEATHER

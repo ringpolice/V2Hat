@@ -61,37 +61,35 @@ public class CurrentlyOwned extends ChestGui implements EventListener {
 
         // todo pagination
 
-        for (String owned : config.getDocument().getSection("hats").getRoutesAsStrings(false)) {
-            String material = config.getDocument().getString("hats." + owned + ".data.item");
+        for (String ownedHat : config.getDocument().getSection("hats").getRoutesAsStrings(false)) {
+            String ownedHatMaterial = config.getDocument().getString("hats." + ownedHat + ".data.item");
             Boolean debug = config.getDocument().getBoolean("debug");
-            MessageBuilder display = MessageBuilder.of(plugin, config.getDocument().getString("hats." + owned + ".data.display"));
-            Integer texture = config.getDocument().getInt("hats." + owned + ".data.texture");
-            String permission = config.getDocument().getString("hats." + owned + ".permission");
-            Double price = config.getDocument().getDouble("hats." + owned + ".price");
-            MessageBuilder activate = MessageBuilder.of(plugin, config.getDocument().getString("lang.activate")).set("hat", display.component()).set("price", Math.floor(price));
+            MessageBuilder ownedHatDisplayName = MessageBuilder.of(plugin, config.getDocument().getString("hats." + ownedHat + ".data.display"));
+            Integer ownedHatTexture = config.getDocument().getInt("hats." + ownedHat + ".data.texture");
+            String hatPermission = config.getDocument().getString("hats." + ownedHat + ".permission");
+            Double hatPrice = config.getDocument().getDouble("hats." + ownedHat + ".price");
+            MessageBuilder moneySymbol = MessageBuilder.of(plugin, config.getDocument().getString("lang.money-symbol"));
+            MessageBuilder hatPriceFormatted = MessageBuilder.of(plugin, moneySymbol.toString() + Math.floor(hatPrice));
+            MessageBuilder activateMessage = MessageBuilder.of(plugin, config.getDocument().getString("lang.activate")).set("_hat_", ownedHatDisplayName.component()).set("_price_", hatPriceFormatted);
             String activateSound = config.getDocument().getString("sounds.activate");
 
-                if (player.hasPermission(permission)) {
-                    ItemStack hat = new ItemStack(Material.valueOf(material)); // currently available hats
-                    hatPerms.add(new GuiItem(hat, (event) -> {
-                        if (event.isLeftClick() || event.isRightClick()) {
-                            event.setCancelled(true);
+            if (player.hasPermission(hatPermission) || player.isOp()) {
+                ItemStack hat = new ItemStack(Material.valueOf(ownedHatMaterial)); // currently available hats
+                ItemMeta hatMeta = hat.getItemMeta();
+                hatMeta.setCustomModelData(ownedHatTexture);
+                hatMeta.itemName(ownedHatDisplayName.component());
+                hat.setItemMeta(hatMeta);
+                hatPerms.add(new GuiItem(hat, (event) -> {
+                    if (event.isLeftClick() || event.isRightClick()) {
+                        event.setCancelled(true);
 
-                            ItemMeta hatMeta = hat.getItemMeta();
-                            hatMeta.setCustomModelData(texture);
-                            hatMeta.itemName(display.component());
-                            hat.setItemMeta(hatMeta);
-
-                            player.getInventory().setHelmet(hat);
-                            player.playSound(Sound.sound().type(org.bukkit.Sound.valueOf(activateSound).key()).volume(3.0f).pitch(0.5f).build(), Sound.Emitter.self());
-                            player.sendMessage(activate.component());
-                            if(debug)
-                            player.sendMessage("DEBUG: texture.toString(): " + texture.toString() +
-                                               " - hat.getItemMeta().getCustomModelData(): " + (hat.getItemMeta() != null ? hat.getItemMeta() : "null"));
-
-                        }
-                    }));
-                }
+                        player.getInventory().setHelmet(hat);
+                        player.playSound(Sound.sound().type(org.bukkit.Sound.valueOf(activateSound).key()).volume(3.0f).pitch(0.5f).build(), Sound.Emitter.self());
+                        player.sendMessage(activateMessage.component());
+                        if(debug) player.sendMessage("DEBUG: CurrentlyOwned.java: hatPerms.add(new GuiItem(hat, (event) -> {}");
+                    }
+                }));
+            }
             ownedMenu.populateWithGuiItems(hatPerms);
         }
 

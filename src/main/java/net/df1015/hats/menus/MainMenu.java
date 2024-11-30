@@ -18,7 +18,7 @@ public class MainMenu extends ChestGui {
         super(rows, title);
         HatPlugin plugin = HatPlugin.getPlugin(HatPlugin.class);
         final ConfigHandler config = plugin.getConfigManager();
-        final StaticPane menuPane = new StaticPane(0, 0, 9, 1);
+        final StaticPane options = new StaticPane(0, 0, 9, 1);
 
         String ownedHatMenuItem = config.getDocument().getString("gui.owned.item");
         MessageBuilder ownedHatMenuDisplay = MessageBuilder.of(plugin, config.getDocument().getString("gui.owned.display"));
@@ -28,39 +28,43 @@ public class MainMenu extends ChestGui {
         MessageBuilder shopHatMenuDisplay = MessageBuilder.of(plugin, config.getDocument().getString("gui.shop.display"));
         MessageBuilder shopHatMenuTitle = MessageBuilder.of(plugin, config.getDocument().getString("gui.shop.title"));
 
-        ItemStack hat = new ItemStack(Material.valueOf(ownedHatMenuItem)); // currently owned hats
-        ItemMeta hatMeta = hat.getItemMeta();
-        hatMeta.setCustomModelData(1); // random int for now
-        hatMeta.itemName(ownedHatMenuDisplay.component());
-        hat.setItemMeta(hatMeta);
+        Boolean debug = config.getDocument().getBoolean("debug");
 
-        ItemStack shopItem = new ItemStack(Material.valueOf(shopHatMenuItem)); // currently purchasable hats
-        ItemMeta shopMeta = shopItem.getItemMeta();
-        shopMeta.itemName(shopHatMenuDisplay.component());
-        shopMeta.setCustomModelData(2); // random int for now
-        shopItem.setItemMeta(shopMeta);
+        ItemStack ownedMenuItem = new ItemStack(Material.valueOf(ownedHatMenuItem)); // currently owned hats
+        ItemMeta ownedMenuItemMeta = ownedMenuItem.getItemMeta();
+        ownedMenuItemMeta.setCustomModelData(1);
+        ownedMenuItemMeta.itemName(ownedHatMenuDisplay.component());
+        ownedMenuItem.setItemMeta(ownedMenuItemMeta);
 
-        menuPane.addItem(new GuiItem(hat, (event) -> {
+        ItemStack shopMenuItem = new ItemStack(Material.valueOf(shopHatMenuItem)); // currently purchasable hats
+        ItemMeta shopMenuItemMeta = shopMenuItem.getItemMeta();
+        shopMenuItemMeta.itemName(shopHatMenuDisplay.component());
+        shopMenuItemMeta.setCustomModelData(2);
+        shopMenuItem.setItemMeta(shopMenuItemMeta);
+
+        options.addItem(new GuiItem(ownedMenuItem, (event) -> {
             if (event.isLeftClick() || event.isRightClick()) {
                 event.setCancelled(true);
-                ChestGui currentOwned = new CurrentlyOwned(ownedHatMenuTitle.component(),event.getWhoClicked(),plugin);
-                currentOwned.setOnGlobalClick(event1 -> event1.setCancelled(true));
-                currentOwned.show(event.getWhoClicked());
+                ChestGui ownedHatMenu = new CurrentlyOwned(ownedHatMenuTitle.component(),event.getWhoClicked(),plugin);
+                ownedHatMenu.setOnGlobalClick(event1 -> event1.setCancelled(true));
+                ownedHatMenu.show(event.getWhoClicked());
+                if (debug) event.getWhoClicked().sendMessage("DEBUG: MainMenu.java: options.addItem(new GuiItem(ownedMenuItem, (event) -> {}");
             }
         }), Slot.fromXY(3, 0));
 
         // todo clear hat button here
 
-        menuPane.addItem(new GuiItem(shopItem, (event) -> {
-            if (event.isLeftClick() || event.isRightClick() ) {
+        options.addItem(new GuiItem(shopMenuItem, (event) -> {
+            if (event.isLeftClick() || event.isRightClick()) {
                 event.setCancelled(true);
                 ChestGui shopHatMenu = new HatShop(shopHatMenuTitle.component(), event.getWhoClicked(), plugin);
                 shopHatMenu.setOnGlobalClick(event1 -> event1.setCancelled(true));
                 shopHatMenu.show(event.getWhoClicked());
+                if (debug) event.getWhoClicked().sendMessage("DEBUG: MainMenu.java: options.addItem(new GuiItem(shopMenuItem, (event) -> {}");
             }
         }), Slot.fromXY(5, 0));
 
-        this.addPane(menuPane);
+        this.addPane(options);
     }
 
 }

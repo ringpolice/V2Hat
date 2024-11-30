@@ -38,53 +38,49 @@ public class HatShop extends ChestGui {
         final PaginatedPane shopMenu = new PaginatedPane(0, 0, 9, 5);
         final ArrayList<GuiItem> guiItems = new ArrayList<>();
 
-
-        //shopMenu.setOnClick(event -> event.setCancelled(true));
-
-        for (final String available : config.getDocument().getSection("hats").getRoutesAsStrings(false)) {
-            String material = config.getDocument().getString("hats." + available + ".data.item");
-
-            MessageBuilder display = MessageBuilder.of(plugin, config.getDocument().getString("hats." + available + ".data.display"));
-
-            Integer texture = config.getDocument().getInt("hats." + available + ".data.texture");
-            String permission = config.getDocument().getString("hats." + available + ".permission");
-            Double price = config.getDocument().getDouble("hats." + available + ".price");
-            String error = config.getDocument().getString("sounds.error");
-
-
-            MessageBuilder success = MessageBuilder.of(plugin, config.getDocument().getString("lang.buy-success")).set("hat", display.component()).set("price", Math.floor(price));
-            MessageBuilder noBalance = MessageBuilder.of(plugin, config.getDocument().getString("lang.insufficient-balance"))
-                .set("hat", display.component())
-                .set("price", Math.floor(price));
-
-            ItemStack hat = new ItemStack(Material.valueOf(material)); // currently available hats
-            ItemMeta hatMeta = hat.getItemMeta();
-            hatMeta.setCustomModelData(texture);
-            hatMeta.itemName(display.component());
-            hatMeta.lore(List.of(Component.text("$" + price).color(NamedTextColor.GREEN)));
+        for (final String shopItem : config.getDocument().getSection("hats").getRoutesAsStrings(false)) {
+            String shopItemMaterial = config.getDocument().getString("hats." + shopItem + ".data.item");
+            MessageBuilder shopHatDisplayName = MessageBuilder.of(plugin, config.getDocument().getString("hats." + shopItem + ".data.display"));
+            Boolean debug = config.getDocument().getBoolean("debug");
+            Integer shopHatTexture = config.getDocument().getInt("hats." + shopItem + ".data.texture");
+            String hatPermission = config.getDocument().getString("hats." + shopItem + ".permission");
+            Double hatPrice = config.getDocument().getDouble("hats." + shopItem + ".price");
+            MessageBuilder moneySymbol = MessageBuilder.of(plugin, config.getDocument().getString("lang.money-symbol"));
+            String errorSound = config.getDocument().getString("sounds.error");
+            MessageBuilder hatPriceFormatted = MessageBuilder.of(plugin, moneySymbol.toString() + Math.floor(hatPrice));
+            MessageBuilder successMsg = MessageBuilder.of(plugin, config.getDocument().getString("lang.buy-success")).set("_hat_", shopHatDisplayName.component()).set("_price_", hatPriceFormatted);
+            MessageBuilder insufficientBalanceMsg = MessageBuilder.of(plugin, config.getDocument().getString("lang.insufficient-balance"))
+                .set("hat", shopHatDisplayName.component())
+                .set("price", Math.floor(hatPrice));
 
             // todo pagination
 
-            hat.setItemMeta(hatMeta);
-            if (player.hasPermission(permission) || player.isOp()) {
-                guiItems.add(new GuiItem(hat, (event) -> {
+            if (player.hasPermission(hatPermission) || player.isOp()) {
+                ItemStack shopMenuItem = new ItemStack(Material.valueOf(shopItemMaterial)); // currently available hats
+                ItemMeta shopMenuItemItemMeta = shopMenuItem.getItemMeta();
+                shopMenuItemItemMeta.setCustomModelData(shopHatTexture);
+                shopMenuItemItemMeta.itemName(shopHatDisplayName.component());
+                shopMenuItemItemMeta.lore(List.of(Component.text(moneySymbol.toString() + hatPrice).color(NamedTextColor.GREEN)));
+                shopMenuItem.setItemMeta(shopMenuItemItemMeta);
+                guiItems.add(new GuiItem(shopMenuItem, (event) -> {
                     if (event.isLeftClick() || event.isRightClick()) {
+                        event.setCancelled(true);
                         if (econ.hasAccount((OfflinePlayer) player)) {
-                            if (!econ.has((OfflinePlayer) player, price)) {
-                                player.sendMessage(noBalance.component());
+                            if (!econ.has((OfflinePlayer) player, hatPrice)) {
+                                player.sendMessage(insufficientBalanceMsg.component());
                                 event.getWhoClicked()
-                                    .playSound(net.kyori.adventure.sound.Sound.sound().type(org.bukkit.Sound.valueOf(error).key()).volume(3.0f).pitch(0.5f).build(),
+                                    .playSound(net.kyori.adventure.sound.Sound.sound().type(org.bukkit.Sound.valueOf(errorSound).key()).volume(3.0f).pitch(0.5f).build(),
                                         net.kyori.adventure.sound.Sound.Emitter.self()
                                     );
                             } else {
-                                econ.withdrawPlayer((OfflinePlayer) player, price);
-                                user.data().add(Node.builder(permission).build());
+                                econ.withdrawPlayer((OfflinePlayer) player, hatPrice);
+                                user.data().add(Node.builder(hatPermission).build());
                                 lp.getUserManager().saveUser(user);
-                                player.sendMessage(success.component());
+                                player.sendMessage(successMsg.component());
                             }
-                            event.setCancelled(true);
                         }
                     }
+                    if (debug) event.getWhoClicked().sendMessage("DEBUG: HatShop.java: options.addItem(new GuiItem(ownedMenuItem, (event) -> {}");
                 }));
             }
         }
