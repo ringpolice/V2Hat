@@ -55,7 +55,7 @@ hats:
       item: FEATHER
       display: Witch Hat
       texture: 10008
-    permission: vindex.hat.witch
+    permission: +9  
     price: 1000.0
     job: false
   atm:

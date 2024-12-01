@@ -35,7 +35,7 @@ public final class HatCommand implements dev.kokiriglade.popcorn.command.Command
                 player.playSound(net.kyori.adventure.sound.Sound.sound().type(org.bukkit.Sound.valueOf(open).key()).volume(3.0f).pitch(0.5f).build(),
                     net.kyori.adventure.sound.Sound.Emitter.self()
                 );
-                ChestGui Menu = new MainMenu(1,Component.text("Hat Menu"));
+                ChestGui Menu = new MainMenu(1,Component.text("Hat Menu"), context.getSource().getSender());
                 Menu.setOnGlobalClick(event -> event.setCancelled(true));
                 Menu.show(player);
 

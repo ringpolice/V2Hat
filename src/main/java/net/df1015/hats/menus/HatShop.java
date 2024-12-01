@@ -45,10 +45,10 @@ public class HatShop extends ChestGui {
             Integer shopHatTexture = config.getDocument().getInt("hats." + shopItem + ".data.texture");
             String hatPermission = config.getDocument().getString("hats." + shopItem + ".permission");
             Double hatPrice = config.getDocument().getDouble("hats." + shopItem + ".price");
-            MessageBuilder moneySymbol = MessageBuilder.of(plugin, config.getDocument().getString("lang.money-symbol"));
+            String moneySymbol = config.getDocument().getString("lang.money-symbol");
             String errorSound = config.getDocument().getString("sounds.error");
-            MessageBuilder hatPriceFormatted = MessageBuilder.of(plugin, moneySymbol.toString() + Math.floor(hatPrice));
-            MessageBuilder successMsg = MessageBuilder.of(plugin, config.getDocument().getString("lang.buy-success")).set("_hat_", shopHatDisplayName.component()).set("_price_", hatPriceFormatted);
+            MessageBuilder hatPriceFormatted = MessageBuilder.of(plugin, moneySymbol + Math.floor(hatPrice));
+            MessageBuilder successMsg = MessageBuilder.of(plugin, config.getDocument().getString("lang.buy-success")).set("_hat_", shopHatDisplayName.component()).set("_price_", hatPriceFormatted.component());
             MessageBuilder insufficientBalanceMsg = MessageBuilder.of(plugin, config.getDocument().getString("lang.insufficient-balance"))
                 .set("hat", shopHatDisplayName.component())
                 .set("price", Math.floor(hatPrice));
@@ -60,7 +60,7 @@ public class HatShop extends ChestGui {
                 ItemMeta shopMenuItemItemMeta = shopMenuItem.getItemMeta();
                 shopMenuItemItemMeta.setCustomModelData(shopHatTexture);
                 shopMenuItemItemMeta.itemName(shopHatDisplayName.component());
-                shopMenuItemItemMeta.lore(List.of(Component.text(moneySymbol.toString() + hatPrice).color(NamedTextColor.GREEN)));
+                shopMenuItemItemMeta.lore(List.of(Component.text(moneySymbol + hatPrice).color(NamedTextColor.GREEN)));
                 shopMenuItem.setItemMeta(shopMenuItemItemMeta);
                 guiItems.add(new GuiItem(shopMenuItem, (event) -> {
                     if (event.isLeftClick() || event.isRightClick()) {

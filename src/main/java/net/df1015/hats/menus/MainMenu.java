@@ -1,20 +1,24 @@
 package net.df1015.hats.menus;
 
+import com.mojang.brigadier.Message;
 import dev.kokiriglade.popcorn.builder.text.MessageBuilder;
 import dev.kokiriglade.popcorn.inventory.gui.GuiItem;
 import dev.kokiriglade.popcorn.inventory.gui.type.ChestGui;
 import dev.kokiriglade.popcorn.inventory.pane.StaticPane;
 import dev.kokiriglade.popcorn.inventory.pane.util.Slot;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
 import net.df1015.hats.HatPlugin;
 import net.df1015.hats.handlers.ConfigHandler;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class MainMenu extends ChestGui {
-    public MainMenu(int rows, @NonNull Component title) {
+    public MainMenu(int rows, @NonNull Component title, CommandSender p) {
         super(rows, title);
         HatPlugin plugin = HatPlugin.getPlugin(HatPlugin.class);
         final ConfigHandler config = plugin.getConfigManager();
@@ -22,7 +26,7 @@ public class MainMenu extends ChestGui {
 
         String ownedHatMenuItem = config.getDocument().getString("gui.owned.item");
         MessageBuilder ownedHatMenuDisplay = MessageBuilder.of(plugin, config.getDocument().getString("gui.owned.display"));
-        MessageBuilder ownedHatMenuTitle = MessageBuilder.of(plugin, config.getDocument().getString("gui.shop.title"));
+        MessageBuilder ownedHatMenuTitle = MessageBuilder.of(plugin, config.getDocument().getString("gui.owned.title"));
 
         String shopHatMenuItem = config.getDocument().getString("gui.shop.item");
         MessageBuilder shopHatMenuDisplay = MessageBuilder.of(plugin, config.getDocument().getString("gui.shop.display"));
@@ -52,7 +56,20 @@ public class MainMenu extends ChestGui {
             }
         }), Slot.fromXY(3, 0));
 
-        // todo clear hat button here
+        Player player = (Player) p;
+        ItemStack currentHat = player.getInventory().getHelmet();
+        ItemMeta currentHatMeta = currentHat.getItemMeta();
+        Component preNameChange = currentHatMeta.itemName();
+        currentHatMeta.itemName(Component.text(preNameChange+""));
+        currentHat.setItemMeta(currentHatMeta);
+
+        if(currentHat != null && !currentHat.getType().equals(Material.AIR)){
+            options.addItem(new GuiItem(currentHat, (event) -> {
+                if (event.isLeftClick() || event.isRightClick()) {
+                    event.setCancelled(true);
+                }
+            }), Slot.fromXY(4, 0));
+        }
 
         options.addItem(new GuiItem(shopMenuItem, (event) -> {
             if (event.isLeftClick() || event.isRightClick()) {

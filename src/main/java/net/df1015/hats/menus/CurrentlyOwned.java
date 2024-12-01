@@ -29,8 +29,6 @@ public class CurrentlyOwned extends ChestGui implements EventListener {
         PaginatedPane ownedMenu = new PaginatedPane(0, 0, 9, 5);
         StaticPane clearHat = new StaticPane(4, 5, 1, 1);
 
-        //ownedMenu.setOnClick(event -> event.setCancelled(true));
-
         this.addPane(ownedMenu);
         this.addPane(clearHat);
         clearHat.setPriority(Pane.Priority.HIGHEST);
@@ -69,8 +67,8 @@ public class CurrentlyOwned extends ChestGui implements EventListener {
             String hatPermission = config.getDocument().getString("hats." + ownedHat + ".permission");
             Double hatPrice = config.getDocument().getDouble("hats." + ownedHat + ".price");
             MessageBuilder moneySymbol = MessageBuilder.of(plugin, config.getDocument().getString("lang.money-symbol"));
-            MessageBuilder hatPriceFormatted = MessageBuilder.of(plugin, moneySymbol.toString() + Math.floor(hatPrice));
-            MessageBuilder activateMessage = MessageBuilder.of(plugin, config.getDocument().getString("lang.activate")).set("_hat_", ownedHatDisplayName.component()).set("_price_", hatPriceFormatted);
+            MessageBuilder hatPriceFormatted = MessageBuilder.of(plugin, ""+moneySymbol.component() + Math.floor(hatPrice));
+            MessageBuilder activateMessage = MessageBuilder.of(plugin, config.getDocument().getString("lang.activate")).set("_hat_", ownedHatDisplayName.component()).set("_price_", hatPriceFormatted.component());
             String activateSound = config.getDocument().getString("sounds.activate");
 
             if (player.hasPermission(hatPermission) || player.isOp()) {
