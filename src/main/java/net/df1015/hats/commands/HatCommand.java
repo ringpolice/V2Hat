@@ -1,9 +1,9 @@
 package net.df1015.hats.commands;
 
+import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import dev.kokiriglade.popcorn.builder.text.MessageBuilder;
-import dev.kokiriglade.popcorn.inventory.gui.type.ChestGui;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import net.df1015.hats.HatPlugin;
@@ -28,7 +28,6 @@ public final class HatCommand implements dev.kokiriglade.popcorn.command.Command
             .executes(context -> {
                 final ConfigHandler config = plugin.getConfigManager();
 
-
                 final Player player = (Player) context.getSource().getSender();
                 String open = config.getDocument().getString("sounds.menu-open");
 
@@ -51,5 +50,4 @@ public final class HatCommand implements dev.kokiriglade.popcorn.command.Command
                 return Command.SINGLE_SUCCESS;
             }));
     }
-
 }

@@ -1,12 +1,12 @@
 package net.df1015.hats.menus;
 
-import com.mojang.brigadier.Message;
+import com.github.stefvanschie.inventoryframework.adventuresupport.ComponentHolder;
+import com.github.stefvanschie.inventoryframework.adventuresupport.TextHolder;
+import com.github.stefvanschie.inventoryframework.gui.GuiItem;
+import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
+import com.github.stefvanschie.inventoryframework.pane.StaticPane;
+import com.github.stefvanschie.inventoryframework.pane.util.Slot;
 import dev.kokiriglade.popcorn.builder.text.MessageBuilder;
-import dev.kokiriglade.popcorn.inventory.gui.GuiItem;
-import dev.kokiriglade.popcorn.inventory.gui.type.ChestGui;
-import dev.kokiriglade.popcorn.inventory.pane.StaticPane;
-import dev.kokiriglade.popcorn.inventory.pane.util.Slot;
-import io.papermc.paper.command.brigadier.CommandSourceStack;
 import net.df1015.hats.HatPlugin;
 import net.df1015.hats.handlers.ConfigHandler;
 import net.kyori.adventure.text.Component;
@@ -19,7 +19,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 public class MainMenu extends ChestGui {
     public MainMenu(int rows, @NonNull Component title, CommandSender p) {
-        super(rows, title);
+        super(rows, ComponentHolder.of(title));
         HatPlugin plugin = HatPlugin.getPlugin(HatPlugin.class);
         final ConfigHandler config = plugin.getConfigManager();
         final StaticPane options = new StaticPane(0, 0, 9, 1);
@@ -58,12 +58,12 @@ public class MainMenu extends ChestGui {
 
         Player player = (Player) p;
         ItemStack currentHat = player.getInventory().getHelmet();
-        ItemMeta currentHatMeta = currentHat.getItemMeta();
-        Component preNameChange = currentHatMeta.itemName();
-        currentHatMeta.itemName(Component.text(preNameChange+""));
-        currentHat.setItemMeta(currentHatMeta);
 
         if(currentHat != null && !currentHat.getType().equals(Material.AIR)){
+            ItemMeta currentHatMeta = currentHat.getItemMeta();
+            Component preNameChange = currentHatMeta.itemName();
+            currentHatMeta.itemName(Component.text(preNameChange+""));
+            currentHat.setItemMeta(currentHatMeta);
             options.addItem(new GuiItem(currentHat, (event) -> {
                 if (event.isLeftClick() || event.isRightClick()) {
                     event.setCancelled(true);
@@ -80,7 +80,6 @@ public class MainMenu extends ChestGui {
                 if (debug) event.getWhoClicked().sendMessage("DEBUG: MainMenu.java: options.addItem(new GuiItem(shopMenuItem, (event) -> {}");
             }
         }), Slot.fromXY(5, 0));
-
         this.addPane(options);
     }
 

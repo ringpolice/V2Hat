@@ -1,12 +1,15 @@
 package net.df1015.hats.menus;
 
+import com.github.stefvanschie.inventoryframework.adventuresupport.ComponentHolder;
+import com.github.stefvanschie.inventoryframework.adventuresupport.TextHolder;
+import com.github.stefvanschie.inventoryframework.gui.GuiItem;
+import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
+import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
+import com.github.stefvanschie.inventoryframework.pane.Pane;
+import com.github.stefvanschie.inventoryframework.pane.StaticPane;
+import com.github.stefvanschie.inventoryframework.pane.component.PagingButtons;
+import com.github.stefvanschie.inventoryframework.pane.util.Slot;
 import dev.kokiriglade.popcorn.builder.text.MessageBuilder;
-import dev.kokiriglade.popcorn.inventory.gui.GuiItem;
-import dev.kokiriglade.popcorn.inventory.gui.type.ChestGui;
-import dev.kokiriglade.popcorn.inventory.pane.PaginatedPane;
-import dev.kokiriglade.popcorn.inventory.pane.Pane;
-import dev.kokiriglade.popcorn.inventory.pane.StaticPane;
-import dev.kokiriglade.popcorn.inventory.pane.util.Slot;
 import net.df1015.hats.HatPlugin;
 import net.df1015.hats.handlers.ConfigHandler;
 import net.kyori.adventure.sound.Sound;
@@ -23,14 +26,19 @@ import java.util.EventListener;
 public class CurrentlyOwned extends ChestGui implements EventListener {
 
     public CurrentlyOwned(@NonNull Component title, HumanEntity player, HatPlugin plugin) {
-        super(6, title);
+        super(6, ComponentHolder.of(title));
         final ConfigHandler config = plugin.getConfigManager();
 
         PaginatedPane ownedMenu = new PaginatedPane(0, 0, 9, 5);
         StaticPane clearHat = new StaticPane(4, 5, 1, 1);
 
+        PagingButtons pagingButtons = new PagingButtons(Slot.fromXY(0,0), 3, Pane.Priority.HIGH, ownedMenu, plugin);
+        pagingButtons.setBackwardButton(new GuiItem(new ItemStack(Material.CANDLE)));
+        pagingButtons.setForwardButton(new GuiItem(new ItemStack(Material.OXEYE_DAISY)));
+
         this.addPane(ownedMenu);
         this.addPane(clearHat);
+
         clearHat.setPriority(Pane.Priority.HIGHEST);
 
         String clearItem = config.getDocument().getString("gui.clear.item");

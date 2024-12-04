@@ -1,9 +1,11 @@
 package net.df1015.hats.menus;
 
+import com.github.stefvanschie.inventoryframework.adventuresupport.ComponentHolder;
+import com.github.stefvanschie.inventoryframework.adventuresupport.TextHolder;
+import com.github.stefvanschie.inventoryframework.gui.GuiItem;
+import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
+import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
 import dev.kokiriglade.popcorn.builder.text.MessageBuilder;
-import dev.kokiriglade.popcorn.inventory.gui.GuiItem;
-import dev.kokiriglade.popcorn.inventory.gui.type.ChestGui;
-import dev.kokiriglade.popcorn.inventory.pane.PaginatedPane;
 import net.df1015.hats.HatPlugin;
 import net.df1015.hats.handlers.ConfigHandler;
 import net.kyori.adventure.text.Component;
@@ -29,7 +31,7 @@ public class HatShop extends ChestGui {
     Economy econ = HatPlugin.getEconomy();
 
     public HatShop(@NonNull Component title, HumanEntity player, HatPlugin plugin) {
-        super(6, title);
+        super(6, ComponentHolder.of(title));
         final ConfigHandler config = plugin.getConfigManager();
         final User user = lp.getUserManager().getUser(player.getUniqueId());
 

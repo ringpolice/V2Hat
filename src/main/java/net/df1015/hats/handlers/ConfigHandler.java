@@ -7,7 +7,6 @@ import org.checkerframework.framework.qual.DefaultQualifier;
 
 @DefaultQualifier(NonNull.class)
 public final class ConfigHandler extends AbstractConfigurationManager<HatPlugin> {
-
     public ConfigHandler(final HatPlugin plugin) {
         super(plugin, "config.yml");
         reload();

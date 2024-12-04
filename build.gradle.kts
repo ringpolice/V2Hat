@@ -1,6 +1,7 @@
 plugins {
-    id("java")
+    id("com.gradleup.shadow") version "9.0.0-beta2"
     id("xyz.jpenilla.run-paper") version "2.3.1"
+    id("java")
 }
 
 
@@ -15,6 +16,7 @@ repositories {
 }
 
 dependencies {
+    implementation("com.github.stefvanschie.inventoryframework:IF:0.10.18")
     compileOnly("dev.kokiriglade:popcorn:3.3.5")
     compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
     compileOnly("net.luckperms:api:5.4")
@@ -24,6 +26,8 @@ dependencies {
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
+
+
 
 tasks {
     runServer {
@@ -37,8 +41,7 @@ tasks {
             file("run/plugins/hats").deleteRecursively()
         }
     }
-}
-
-tasks.test {
-    useJUnitPlatform()
+    shadowJar {
+        relocate("com.github.stefvanschie.inventoryframework", "net.df1015.hats.lib.if")
+    }
 }
