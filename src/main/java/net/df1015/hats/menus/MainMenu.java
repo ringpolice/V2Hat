@@ -67,6 +67,7 @@ public class MainMenu extends ChestGui {
             options.addItem(new GuiItem(currentHat, (event) -> {
                 if (event.isLeftClick() || event.isRightClick()) {
                     event.setCancelled(true);
+                    HatPlugin.explodeNearestCow(player);
                 }
             }), Slot.fromXY(4, 0));
         }

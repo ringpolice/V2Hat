@@ -1,7 +1,6 @@
 package net.df1015.hats.menus;
 
 import com.github.stefvanschie.inventoryframework.adventuresupport.ComponentHolder;
-import com.github.stefvanschie.inventoryframework.adventuresupport.TextHolder;
 import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
@@ -16,6 +15,7 @@ import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -30,16 +30,15 @@ public class CurrentlyOwned extends ChestGui implements EventListener {
         final ConfigHandler config = plugin.getConfigManager();
 
         PaginatedPane ownedMenu = new PaginatedPane(0, 0, 9, 5);
-        StaticPane clearHat = new StaticPane(4, 5, 1, 1);
+        StaticPane clearHat = new StaticPane(4, 5, 1, 1, Pane.Priority.HIGH);
 
-        PagingButtons pagingButtons = new PagingButtons(Slot.fromXY(0,0), 3, Pane.Priority.HIGH, ownedMenu, plugin);
+        PagingButtons pagingButtons = new PagingButtons(Slot.fromXY(0,0), 3, Pane.Priority.HIGHEST, ownedMenu, plugin);
         pagingButtons.setBackwardButton(new GuiItem(new ItemStack(Material.CANDLE)));
         pagingButtons.setForwardButton(new GuiItem(new ItemStack(Material.OXEYE_DAISY)));
 
         this.addPane(ownedMenu);
         this.addPane(clearHat);
-
-        clearHat.setPriority(Pane.Priority.HIGHEST);
+        this.addPane(pagingButtons);
 
         String clearItem = config.getDocument().getString("gui.clear.item");
         MessageBuilder clearItemDisplay = MessageBuilder.of(plugin, config.getDocument().getString("gui.clear.display"));

@@ -8,11 +8,15 @@ import net.df1015.hats.handlers.InventoryEvent;
 import net.luckperms.api.LuckPerms;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
@@ -68,6 +72,34 @@ public class HatPlugin extends JavaPlugin {
         return true;
     }
 
+    public static void explodeNearestCow(Player player) {
+        Bukkit.getServer().getLogger().info("explodeNearestCow");
+        ArrayList<Entity> nearestCows = (ArrayList<Entity>) player.getWorld().getNearbyEntities(player.getLocation(), 5, 5, 5);
+        double lowestDistanceSoFar = Double.MAX_VALUE;
+        Entity closestEntity = null;
+
+        for (Entity entity : nearestCows) {
+            double distance = entity.getLocation().distance(player.getLocation());
+            if (distance < lowestDistanceSoFar) {
+                if (entity.getType() == EntityType.COW) {
+                    lowestDistanceSoFar = distance;
+                    closestEntity = entity;
+                    Bukkit.getServer().getLogger().info("cow targeted");
+                }else{
+                    Bukkit.getServer().getLogger().info("no cows");
+                }
+            }
+        }
+        if (closestEntity != null) {
+            Double randomNum = Math.random();
+            if(randomNum == 0.1){
+                Bukkit.getServer().getLogger().info("closestEntity: " + closestEntity.getType());
+                if(closestEntity.getType() == EntityType.COW) {
+                    closestEntity.getWorld().createExplosion(closestEntity.getLocation(), 5, true);
+                }
+            }
+        }
+    }
 }
 
 
