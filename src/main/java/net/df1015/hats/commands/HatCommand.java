@@ -3,7 +3,7 @@ package net.df1015.hats.commands;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import dev.kokiriglade.popcorn.builder.text.MessageBuilder;
+import net.vindexcraft.popcorn.builder.text.MessageBuilder;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import net.df1015.hats.HatPlugin;
@@ -16,7 +16,7 @@ import org.checkerframework.framework.qual.DefaultQualifier;
 
 @DefaultQualifier(NonNull.class)
 @SuppressWarnings("UnstableApiUsage")
-public final class HatCommand implements dev.kokiriglade.popcorn.command.Command<LiteralArgumentBuilder<CommandSourceStack>, HatPlugin> {
+public final class HatCommand implements net.vindexcraft.popcorn.command.Command<LiteralArgumentBuilder<CommandSourceStack>, HatPlugin> {
 
     // initial GUI for the /hat command
 

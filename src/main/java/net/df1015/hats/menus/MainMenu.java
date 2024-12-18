@@ -6,7 +6,7 @@ import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import com.github.stefvanschie.inventoryframework.pane.util.Slot;
-import dev.kokiriglade.popcorn.builder.text.MessageBuilder;
+import net.vindexcraft.popcorn.builder.text.MessageBuilder;
 import net.df1015.hats.HatPlugin;
 import net.df1015.hats.handlers.ConfigHandler;
 import net.kyori.adventure.text.Component;

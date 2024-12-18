@@ -8,7 +8,7 @@ import com.github.stefvanschie.inventoryframework.pane.Pane;
 import com.github.stefvanschie.inventoryframework.pane.StaticPane;
 import com.github.stefvanschie.inventoryframework.pane.component.PagingButtons;
 import com.github.stefvanschie.inventoryframework.pane.util.Slot;
-import dev.kokiriglade.popcorn.builder.text.MessageBuilder;
+import net.vindexcraft.popcorn.builder.text.MessageBuilder;
 import net.df1015.hats.HatPlugin;
 import net.df1015.hats.handlers.ConfigHandler;
 import net.kyori.adventure.sound.Sound;
@@ -25,20 +25,47 @@ import java.util.EventListener;
 
 public class CurrentlyOwned extends ChestGui implements EventListener {
 
+    private int currentPage = 0;
+
     public CurrentlyOwned(@NonNull Component title, HumanEntity player, HatPlugin plugin) {
         super(6, ComponentHolder.of(title));
         final ConfigHandler config = plugin.getConfigManager();
 
         PaginatedPane ownedMenu = new PaginatedPane(0, 0, 9, 5);
-        StaticPane clearHat = new StaticPane(4, 5, 1, 1, Pane.Priority.HIGH);
+        StaticPane buttons = new StaticPane(0, 5, 9, 1, Pane.Priority.HIGH);
+        StaticPane clearHat = new StaticPane(4, 5, 1, 1, Pane.Priority.HIGHEST);
 
-        PagingButtons pagingButtons = new PagingButtons(Slot.fromXY(0,0), 3, Pane.Priority.HIGHEST, ownedMenu, plugin);
-        pagingButtons.setBackwardButton(new GuiItem(new ItemStack(Material.CANDLE)));
-        pagingButtons.setForwardButton(new GuiItem(new ItemStack(Material.OXEYE_DAISY)));
+        //previous page button
 
-        this.addPane(ownedMenu);
-        this.addPane(clearHat);
-        this.addPane(pagingButtons);
+        MessageBuilder previousPageItemName = MessageBuilder.of(plugin, config.getDocument().getString("gui.previous_page.display"));
+        ItemStack previousPage = new ItemStack(Material.valueOf(config.getDocument().getString("gui.previous_page.item")));
+        ItemMeta previousPageMeta = previousPage.getItemMeta();
+        previousPageMeta.itemName(previousPageItemName.component());
+        previousPage.setItemMeta(previousPageMeta);
+
+        buttons.addItem(new GuiItem(previousPage, (event) -> {
+           if(currentPage - 1 >= 0 && currentPage - 1 <= ownedMenu.getPages() ){
+               currentPage--;
+               ownedMenu.setPage(currentPage);
+               this.update();
+           }
+        }), Slot.fromXY(0, 0));
+
+        //next page button
+
+        MessageBuilder nextPageItemName = MessageBuilder.of(plugin, config.getDocument().getString("gui.next_page.display"));
+        ItemStack nextPage = new ItemStack(Material.valueOf(config.getDocument().getString("gui.next_page.item")));
+        ItemMeta nextPageMeta = nextPage.getItemMeta();
+        nextPageMeta.itemName(nextPageItemName.component());
+        nextPage.setItemMeta(nextPageMeta);
+
+        buttons.addItem(new GuiItem(nextPage, (event) -> {
+            if(currentPage + 1 <= ownedMenu.getPages()){
+                currentPage++;
+                ownedMenu.setPage(currentPage);
+                this.update();
+            }
+        }), Slot.fromXY(8, 0));
 
         String clearItem = config.getDocument().getString("gui.clear.item");
         MessageBuilder clearItemDisplay = MessageBuilder.of(plugin, config.getDocument().getString("gui.clear.display"));
@@ -62,7 +89,7 @@ public class CurrentlyOwned extends ChestGui implements EventListener {
             }
         }), Slot.fromXY(0, 0));
 
-        ArrayList<GuiItem> hatPerms = new ArrayList<>();
+        ArrayList<GuiItem> ownedHatsGUI = new ArrayList<>();
 
         // todo pagination
 
@@ -84,21 +111,22 @@ public class CurrentlyOwned extends ChestGui implements EventListener {
                 hatMeta.setCustomModelData(ownedHatTexture);
                 hatMeta.itemName(ownedHatDisplayName.component());
                 hat.setItemMeta(hatMeta);
-                hatPerms.add(new GuiItem(hat, (event) -> {
+                ownedHatsGUI.add(new GuiItem(hat, (event) -> {
                     if (event.isLeftClick() || event.isRightClick()) {
                         event.setCancelled(true);
-
                         player.getInventory().setHelmet(hat);
                         player.playSound(Sound.sound().type(org.bukkit.Sound.valueOf(activateSound).key()).volume(3.0f).pitch(0.5f).build(), Sound.Emitter.self());
                         player.sendMessage(activateMessage.component());
-                        if(debug) player.sendMessage("DEBUG: CurrentlyOwned.java: hatPerms.add(new GuiItem(hat, (event) -> {}");
+                        if(debug) player.sendMessage("DEBUG: CurrentlyOwned.java: ownedHatsGUI.add(new GuiItem(hat, (event) -> {}");
                     }
                 }));
             }
-            ownedMenu.populateWithGuiItems(hatPerms);
+            ownedMenu.populateWithGuiItems(ownedHatsGUI);
+            this.addPane(ownedMenu);
+            this.addPane(buttons);
+            this.addPane(clearHat);
         }
 
 
     }
-
 }

@@ -1,6 +1,6 @@
 package net.df1015.hats.handlers;
 
-import dev.kokiriglade.popcorn.config.AbstractConfigurationManager;
+import net.vindexcraft.popcorn.config.AbstractConfigurationManager;
 import net.df1015.hats.HatPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.framework.qual.DefaultQualifier;

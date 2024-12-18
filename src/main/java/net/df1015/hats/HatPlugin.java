@@ -44,10 +44,10 @@ public class HatPlugin extends JavaPlugin {
         getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
             final Commands commands = event.registrar();
             commands.register(new HatCommand().get(this).build(), List.of("hat"));
-
         });
+
         if (!setupEconomy()) {
-            getLogger().severe("Disabled due to no vault ");
+            getLogger().severe("no vault :(");
             getServer().getPluginManager().disablePlugin(this);
         }
     }
@@ -73,7 +73,6 @@ public class HatPlugin extends JavaPlugin {
     }
 
     public static void explodeNearestCow(Player player) {
-        Bukkit.getServer().getLogger().info("explodeNearestCow");
         ArrayList<Entity> nearestCows = (ArrayList<Entity>) player.getWorld().getNearbyEntities(player.getLocation(), 5, 5, 5);
         double lowestDistanceSoFar = Double.MAX_VALUE;
         Entity closestEntity = null;
@@ -84,16 +83,12 @@ public class HatPlugin extends JavaPlugin {
                 if (entity.getType() == EntityType.COW) {
                     lowestDistanceSoFar = distance;
                     closestEntity = entity;
-                    Bukkit.getServer().getLogger().info("cow targeted");
-                }else{
-                    Bukkit.getServer().getLogger().info("no cows");
                 }
             }
         }
         if (closestEntity != null) {
             Double randomNum = Math.random();
             if(randomNum == 0.1){
-                Bukkit.getServer().getLogger().info("closestEntity: " + closestEntity.getType());
                 if(closestEntity.getType() == EntityType.COW) {
                     closestEntity.getWorld().createExplosion(closestEntity.getLocation(), 5, true);
                 }

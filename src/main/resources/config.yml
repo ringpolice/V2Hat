@@ -26,12 +26,16 @@ gui:
   clear:
     item: BARRIER
     display: <red>Clear Hat</red>
-  Back:
-    item: BARRIER
+  previous_page:
+    item: ARROW
     display: <red>Back</red>
+  next_page:
+    item: BARRIER
+    display: <red>Next</red>
   Exit:
     item: BARRIER
     display: <red>Exit Menu</red>
+
 
 hats:
   firefighter_visor:
@@ -55,7 +59,7 @@ hats:
       item: FEATHER
       display: Witch Hat
       texture: 10008
-    permission: +9  
+    permission: vindex.hat.witch
     price: 1000.0
     job: false
   atm:
