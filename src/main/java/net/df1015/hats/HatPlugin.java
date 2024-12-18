@@ -56,10 +56,6 @@ public class HatPlugin extends JavaPlugin {
         return config;
     }
 
-    public @NonNull LuckPerms getApi() {
-        return api;
-    }
-
     private boolean setupEconomy() {
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;

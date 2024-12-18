@@ -1,7 +1,6 @@
 package net.df1015.hats.menus;
 
 import com.github.stefvanschie.inventoryframework.adventuresupport.ComponentHolder;
-import com.github.stefvanschie.inventoryframework.adventuresupport.TextHolder;
 import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.PaginatedPane;
